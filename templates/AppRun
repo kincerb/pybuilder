@@ -1,17 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ ! -z "$DEBUG" ]; then
-	env
-	set -x
+  env
+  set -x
 fi
 
 # If running from an extracted image, then export $0 as ARGV0
 if [ -z "${APPIMAGE}" ]; then
-	export ARGV0="$0"
+  ARGV0="$0"
 fi
+export ARGV0
 
-export CMD_GIVEN=$(basename "${ARGV0}")              # command given
-export CMD_FULL_PATH=$(command -v -- "${CMD_GIVEN}") # full path of command given
+export CMD_GIVEN=$(basename "${ARGV0}") # command given
 export CMD_ARGS="$@"
 
 SELF=$(readlink -f -- "$0") # current path to AppRun
@@ -25,8 +25,7 @@ export CFLAGS="-I${HERE}/usr/local/include -I${HERE}/usr/local/include/openssl -
 export LDFLAGS="-L${HERE}/usr/local/lib -L${HERE}/usr/local/lib/python3.11${LDFLAGS:+ $LDFLAGS}"
 
 if [[ "${CMD_GIVEN}" =~ .*(python|AppRun).* ]]; then
-	exec $APPDIR/usr/local/bin/python3.11 "$@"
+  exec $APPDIR/usr/local/bin/python3.11 "$@"
 else
-	exec $APPDIR/usr/local/bin/$CMD_GIVEN "$@"
-	# exec "${APPDIR}/usr/local/bin/${CMD_GIVEN}" "${args[@]}"
+  exec $APPDIR/usr/local/bin/$CMD_GIVEN "$@"
 fi
