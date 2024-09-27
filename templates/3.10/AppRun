@@ -11,7 +11,7 @@ if [ -z "${APPIMAGE}" ]; then
 fi
 
 export ARGV0
-export CMD_GIVEN="$0"
+export CMD_GIVEN="${ARGV0}"
 export CMD_BASE=$(basename "${ARGV0}") # command given
 export CMD_ARGS="$@"
 
