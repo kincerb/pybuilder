@@ -23,10 +23,10 @@ def main():
     environment = {}
     environment.update({"prefix": sys.prefix})
     environment.update({"exec_prefix": sys.exec_prefix})
-    environment.update({"platlibdir": sys.platlibdir})
     environment.update({"base_prefix": sys.base_prefix})
     environment.update({"base_exec_prefix": sys.base_exec_prefix})
     environment.update({"path": sys.path})
+
     for key, value in environment.items():
         logger.info("%-16s: %s", key, value)
 
