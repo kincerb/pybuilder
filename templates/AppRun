@@ -9,9 +9,10 @@ fi
 if [ -z "${APPIMAGE}" ]; then
   ARGV0="$0"
 fi
-export ARGV0
 
-export CMD_GIVEN=$(basename "${ARGV0}") # command given
+export ARGV0
+export CMD_GIVEN="$0"
+export CMD_BASE=$(basename "${ARGV0}") # command given
 export CMD_ARGS="$@"
 
 SELF=$(readlink -f -- "$0") # current path to AppRun
@@ -24,8 +25,8 @@ export LD_LIBRARY_PATH="${HERE}/usr/local/lib:${HERE}/usr/lib/:${HERE}/usr/lib/x
 export CFLAGS="-I${HERE}/usr/local/include -I${HERE}/usr/local/include/openssl -I${HERE}/usr/local/include/python3.11d${CFLAGS:+ $CFLAGS}"
 export LDFLAGS="-L${HERE}/usr/local/lib -L${HERE}/usr/local/lib/python3.11${LDFLAGS:+ $LDFLAGS}"
 
-if [[ "${CMD_GIVEN}" =~ .*(python|AppRun).* ]]; then
+if [[ "${CMD_BASE}" =~ .*(python|AppRun).* ]]; then
   exec $APPDIR/usr/local/bin/python3.11 "$@"
 else
-  exec $APPDIR/usr/local/bin/$CMD_GIVEN "$@"
+  exec $APPDIR/usr/local/bin/$CMD_BASE "$@"
 fi
