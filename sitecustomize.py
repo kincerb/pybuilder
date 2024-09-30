@@ -24,6 +24,8 @@ def addsites():
     if not venv.joinpath("pyvenv.cfg").exists():
         return
 
+    sys.prefix = sys.exec_prefix = str(venv)
+
     version = f"{sys.version_info.major}.{sys.version_info.minor}"
     venv_site = venv.joinpath("lib", f"python{version}", "site-packages")
 
