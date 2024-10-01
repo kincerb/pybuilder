@@ -30,6 +30,14 @@ def main():
     for key, value in environment.items():
         logger.info("%-16s: %s", key, value)
 
+    logger.info("Attempting to import venv package requests...")
+    try:
+        import requests  # noqa: F401
+    except ImportError as e:
+        logger.error(e)
+    else:
+        logger.info("Import of requests successful!")
+
 
 if __name__ == "__main__":
     main()
