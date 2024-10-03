@@ -10,9 +10,9 @@ if [ -z "${APPIMAGE}" ]; then
   ARGV0="$0"
 fi
 
-export ARGV0
+export ARGV0 # what was entered at the cli
 export CMD_GIVEN="${ARGV0}"
-export CMD_BASE=$(basename "${ARGV0}") # command given
+export CMD_BASE=$(basename "${ARGV0}") # command given without path
 export CMD_ARGS="$@"
 
 SELF=$(readlink -f -- "$0") # current path to AppRun
