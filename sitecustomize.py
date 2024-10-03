@@ -26,7 +26,8 @@ def _search_paths(command: Path) -> Path:
             continue
         candidate = Path(env_path).joinpath(command)
         if candidate.exists():
-            return candidate
+            # TODO: Verify if `Path().absolute()` is needed
+            return candidate.absolute()
 
     raise RuntimeWarning("Command '%s' not in any PATH directories", str(command))
 
@@ -51,41 +52,50 @@ def resolve_command_location(cmd_string: str) -> Path:
     return _search_paths(command=command)
 
 
-def get_venv() -> Path:
+def get_venv() -> tuple[Path, Path]:
     """Attempt to find virtual environment.
 
     Returns:
-        Path object to root of venv
+        Tuple of venv directory and path to python command
 
     Raises:
         `RuntimeWarning` when no venv could be determined
     """
-    try:
-        return Path(os.environ["VIRTUAL_ENV"]).expanduser().absolute()
-    except KeyError:
-        pass
+    venv = command = None
 
     try:
-        command_directory = Path(os.environ["CMD_GIVEN"]).expanduser().absolute().parent
+        venv = Path(os.environ["VIRTUAL_ENV"]).expanduser().absolute()
+    except KeyError:
+        pass
+    else:
+        command = venv.joinpath("bin", "python")
+        if all((venv, command)):
+            if venv.joinpath("pyvenv.cfg").exists():
+                return venv, command
+
+    try:
+        command = resolve_command_location(os.environ["CMD_GIVEN"])
     except KeyError:
         raise RuntimeWarning(
             "Env variable 'CMD_GIVEN' was not found (for AppImages)"
         ) from None
 
-    venv = command_directory.parent
+    venv = command.parents[1]
+
     if not venv.joinpath("pyvenv.cfg").exists():
         raise RuntimeWarning("Possible venv %s had no pyvenv.cfg", str(venv))
 
-    return venv
+    return venv, command
 
 
 def addsites():
     """Insert AppImage venv into `sys.path` if found."""
     try:
-        venv = get_venv()
+        venv, command = get_venv()
     except RuntimeWarning:
         return
 
+    sys.executable = str(command)
     sys.prefix = sys.exec_prefix = str(venv)
 
     version = f"{sys.version_info.major}.{sys.version_info.minor}"
