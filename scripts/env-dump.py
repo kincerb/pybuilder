@@ -30,9 +30,9 @@ def main():
     for key, value in environment.items():
         logger.info("%-16s: %s", key, value)
 
-    logger.info("Attempting to import venv package requests...")
+    logger.info("Attempting to import venv package docker...")
     try:
-        import requests  # noqa: F401
+        import docker  # noqa: F401
     except ImportError as e:
         logger.error(e)
     else:
