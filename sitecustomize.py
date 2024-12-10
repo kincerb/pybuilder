@@ -95,7 +95,7 @@ def addsites():
     except RuntimeWarning:
         return
 
-    sys.executable = str(command)
+    sys.executable = sys.base_prefix = sys.base_exec_prefix = str(command)
     sys.prefix = sys.exec_prefix = str(venv)
 
     version = f"{sys.version_info.major}.{sys.version_info.minor}"
