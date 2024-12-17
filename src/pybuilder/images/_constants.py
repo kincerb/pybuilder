@@ -3,8 +3,7 @@ from pathlib import Path
 
 class ImageConstants:
     __slots__ = ()
-    NWIE_REGISTRY = "ntr.nwie.net"
-    MANYLINUX_REPO = f"{NWIE_REGISTRY}/quay.io/pypa"
+    MANYLINUX_REPO = "https://quay.io/pypa"
     MANYLINUX_GLIBC_X86_IMAGE = f"{MANYLINUX_REPO}/manylinux_2_28_x86_64"
     MANYLINUX_GLIBC_ARM_IMAGE = f"{MANYLINUX_REPO}/manylinux_2_28_aarch64"
     MANYLINUX_GLIBC_ARM_IMAGE_LEGACY = f"{MANYLINUX_REPO}/manylinux2014_x86_64"
