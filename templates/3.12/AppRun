@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -z "$DEBUG" ]; then
+if [ -n "$DEBUG" ]; then
   env
   set -x
 fi
@@ -22,11 +22,11 @@ export APPDIR="${APPDIR:-${HERE}}"
 
 export PATH="${HERE}/usr/local/bin:${PATH}"
 export LD_LIBRARY_PATH="${HERE}/usr/local/lib:${HERE}/usr/lib/:${HERE}/usr/lib/x86_64-linux-gnu/:${HERE}/usr/lib64/:${HERE}/lib/:${HERE}/lib/x86_64-linux-gnu/:${HERE}/lib64/${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-export CFLAGS="-I${HERE}/usr/local/include -I${HERE}/usr/local/include/openssl -I${HERE}/usr/local/include/python3.11d${CFLAGS:+ $CFLAGS}"
-export LDFLAGS="-L${HERE}/usr/local/lib -L${HERE}/usr/local/lib/python3.11${LDFLAGS:+ $LDFLAGS}"
+export CFLAGS="-I${HERE}/usr/local/include -I${HERE}/usr/local/include/openssl -I${HERE}/usr/local/include/python3.12${CFLAGS:+ $CFLAGS}"
+export LDFLAGS="-L${HERE}/usr/local/lib -L${HERE}/usr/local/lib/python3.12${LDFLAGS:+ $LDFLAGS}"
 
 if [[ "${CMD_BASE}" =~ .*(python|AppRun).* ]]; then
-  exec $APPDIR/usr/local/bin/python3.11 "$@"
+  exec $APPDIR/usr/local/bin/python3.12 "$@"
 else
   exec $APPDIR/usr/local/bin/$CMD_BASE "$@"
 fi

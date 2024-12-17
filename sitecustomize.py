@@ -7,10 +7,14 @@ Due to the nature of AppImages along with virtual environments, without this, at
 to execute a script inside an environment will not work unless it is activated first.
 """
 
+import logging
 import os
 import sys
 
 from pathlib import Path
+
+
+logger = logging.getLogger(name=__name__)
 
 
 def _search_paths(command: Path) -> Path:
@@ -108,3 +112,4 @@ def addsites():
 
 
 addsites()
+del addsites, get_venv, resolve_command_location, _search_paths
