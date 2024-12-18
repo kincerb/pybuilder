@@ -7,10 +7,8 @@ name = "pybuilder"
 description = "Build python AppImages"
 requires-python = ">=3.12"
 dynamic = ["readme", "version"]
-version = "1.0.0"
 dependencies = ["docker"]
 
 [tool.setuptools.dynamic]
 version = { attr = "pybuilder.__version__" }
 readme = { file = ["README.md"], content-type = "text/markdown" }
-
