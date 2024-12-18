@@ -6,7 +6,18 @@ import docker
 
 from docker.models.images import Image
 
+from ..config.constants import ConfigConstants
+from .constants import ImageConstants
+
 logger = logging.getLogger(name=__name__)
+
+
+class PyConstants:
+    """Python Builder Constants."""
+
+    __slots__ = ()
+    image = ImageConstants()
+    config = ConfigConstants()
 
 
 class PythonImage:
@@ -14,8 +25,10 @@ class PythonImage:
 
     python_version: str
     image: Image | None
+    constants: PyConstants
 
     def __init__(self, python_version: str):  # noqa: D107
         self.python_version = python_version
         self._docker = docker.from_env()
         self.image = None
+        self.constants = PyConstants()
